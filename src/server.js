@@ -1,6 +1,6 @@
 import express from 'express'
 import dotenv from 'dotenv'
-// import adminRoute from './routes/admin/indexRoute.js'
+import adminRoute from './route/admin/indexRoute.js'
 // import webRoute from './routes/web/indexRoute.js'
 import cors from 'cors'
 // import dbConnectionCheck from './middlewares/dbConnectionCheck.js'
@@ -23,7 +23,7 @@ app.get("/", (req, res) => {
 
 // app.use(dbConnectionCheck)
 
-// app.use('/api/v1/admin',adminRoute)
+app.use('/api/v1/admin',adminRoute)
 // app.use('/api/v1/web',webRoute)
 
 
