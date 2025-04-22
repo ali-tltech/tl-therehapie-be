@@ -18,7 +18,7 @@ app.use(express.urlencoded({ extended: true }));
 
 // Health Check Route
 app.get("/", (req, res) => {
-    res.send("BD-CMS RUNNING");
+    res.send("theRehapie-CMS RUNNING");
   });
 
 // app.use(dbConnectionCheck)
