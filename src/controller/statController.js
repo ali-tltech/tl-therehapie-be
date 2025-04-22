@@ -1,4 +1,5 @@
-import prisma from "../../helpers/prisma";
+import prisma from "../helpers/prisma.js";
+
 
 export const totalCounts = async (req, res) => {
     try {
