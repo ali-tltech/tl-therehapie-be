@@ -1,7 +1,13 @@
-import express from 'express'
-import { totalCounts } from '../../controller/statController.js'
-const router =express.Router()
+import express from "express";
+import { totalCounts, selectiveCounts } from "../../controller/statController.js";
+import verifyJwtToken from "../../middlewares/verifyJwtToken.js";
 
-router.get('/total-counts',totalCounts)
+const router = express.Router();
 
-export default router
+// Protected routes that require authentication
+router.get("/total-counts", verifyJwtToken, totalCounts);
+router.get("/selective-counts", verifyJwtToken, selectiveCounts); //  can use as GET /api/admin/stats/selective-counts?entities=clients,blogs
+
+
+
+export default router;

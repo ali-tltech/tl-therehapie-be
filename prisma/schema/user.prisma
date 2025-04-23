@@ -1,9 +1,12 @@
 model User {
+  id        String   @id @default(uuid())
+  name      String
+  email     String   @unique
+  password  String
+  role      String   @default("admin")
 
-  name     String
-  email    String @unique
-  password String
-  role     String @default("admin")
-
+  isActive  Boolean? @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  deletedAt DateTime?
 }
-
