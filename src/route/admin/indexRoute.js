@@ -7,8 +7,8 @@ const router = express.Router();
 
 
 router.use("/auth", authRoutes);
-router.use("/stat", statRoutes);
-router.use("/user", UserRoutes);
+router.use("/stats", statRoutes);
+router.use("/users", UserRoutes);
 
 
 

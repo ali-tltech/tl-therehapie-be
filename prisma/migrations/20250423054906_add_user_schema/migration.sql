@@ -9,6 +9,10 @@ CREATE TABLE [dbo].[User] (
     [email] NVARCHAR(1000) NOT NULL,
     [password] NVARCHAR(1000) NOT NULL,
     [role] NVARCHAR(1000) NOT NULL CONSTRAINT [User_role_df] DEFAULT 'admin',
+    [isActive] BIT CONSTRAINT [User_isActive_df] DEFAULT 1,
+    [createdAt] DATETIME2 NOT NULL CONSTRAINT [User_createdAt_df] DEFAULT CURRENT_TIMESTAMP,
+    [updatedAt] DATETIME2 NOT NULL,
+    [deletedAt] DATETIME2,
     CONSTRAINT [User_pkey] PRIMARY KEY CLUSTERED ([id]),
     CONSTRAINT [User_email_key] UNIQUE NONCLUSTERED ([email])
 );
