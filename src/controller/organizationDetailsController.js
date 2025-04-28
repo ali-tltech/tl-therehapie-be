@@ -3,40 +3,62 @@ import { deleteImageFromCloudinary, imageUploadToCloudinary } from "../helpers/i
 
 
 
-
 export const addCompanyDetails = async (req, res) => {
-  const { logo, location, email, phone, mapUrl } = req.body;
+  const { location, email, phone, mapUrl } = req.body;
 
   try {
     const existingSettings = await prisma.companySettings.findFirst();
-    let logo_result
+    let logo_result, favicon_result;
 
-    if (req.file) {
-
+    // Process logo upload
+    if (req.files?.logo) {
       if (existingSettings?.logo) {
-        const publicId = existingSettings.logo.split('/').slice(7, -1).join('/') + '/' + existingSettings.logo.split('/').pop().split('.')[0];
+        const publicId = existingSettings.logo.split('/').slice(-2).join('/').split('.')[0];
         await deleteImageFromCloudinary(publicId);
       }
 
-      const folderPath = 'vsg/settings';
-      const result = await imageUploadToCloudinary(req.file, folderPath);
-
-
+      const folderPath = 'theREHApie/organizationLogo';
+      const result = await imageUploadToCloudinary(req.files.logo[0], folderPath);
       logo_result = result.secure_url;
     }
+
+    // Process favicon upload
+    if (req.files?.favicon) {
+      if (existingSettings?.favicon) {
+        const publicId = existingSettings.favicon.split('/').slice(-2).join('/').split('.')[0];
+        await deleteImageFromCloudinary(publicId);
+      }
+
+      const folderPath = 'theREHApie/organizationFavicon';
+      const result = await imageUploadToCloudinary(req.files.favicon[0], folderPath);
+      favicon_result = result.secure_url;
+    }
+
+    const updateData = {
+      location,
+      email,
+      phone,
+      mapUrl,
+      ...(logo_result && { logo: logo_result }),
+      ...(favicon_result && { favicon: favicon_result }),
+    };
+
     const settings = await prisma.companySettings.upsert({
       where: { id: existingSettings?.id || "" },
-      update: { logo: logo_result, location, email, phone, mapUrl },
-      create: { logo: logo_result, location, email, phone, mapUrl },
+      update: updateData,
+      create: updateData,
     });
 
     res.status(200).json({
-      message: existingSettings ? "Company settings updated successfully" : "Company Detailes created successfully",
+      message: existingSettings ? "Company settings updated successfully" : "Company details created successfully",
       data: settings,
     });
   } catch (error) {
     console.error("Error processing request:", error);
-    res.status(500).json({ message: "Error processing request", error });
+    res.status(500).json({ 
+      message: "Error processing request",
+      error: process.env.NODE_ENV === 'development' ? error : undefined
+    });
   }
 };
 
