@@ -1,0 +1,15 @@
+model Blog {
+  id        String   @id @default(uuid())
+  title     String
+  author    String
+  date      DateTime
+  image     String
+  excerpt   String   @db.Text
+  content   String   @db.Text
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([date])
+  @@index([author])
+  @@index([createdAt])
+}
