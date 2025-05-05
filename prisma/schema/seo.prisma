@@ -1,0 +1,20 @@
+model SEO {
+  id                 String   @id @default(cuid())
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+  pageTitle          String   @unique @db.VarChar(100)
+  title              String   @db.VarChar(60)
+  description        String   @db.VarChar(160)
+  keywords           String?  @db.VarChar(200)
+  ogTitle            String?  @db.VarChar(95)
+  ogDescription      String?  @db.VarChar(200)
+  ogImage            String?  @db.Text
+  ogType             String?  @db.VarChar(50)
+  twitterCard        String?  @db.VarChar(20)
+  twitterTitle       String?  @db.VarChar(70)
+  twitterDescription String?  @db.VarChar(200)
+  twitterImage       String?  @db.Text
+
+  @@index([pageTitle])
+  @@map("seo")
+}
