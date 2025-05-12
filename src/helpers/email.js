@@ -1,36 +1,29 @@
 import nodemailer from 'nodemailer';
-// import { getEmailConfig } from '../controllers/emailConfig.controller.js';
-import dotenv from 'dotenv';
+import { getEmailConfig } from '../controller/emailConfigController.js';
 
-dotenv.config();
-// const createTransporter = async () => {
-//     const emailConfig = await getEmailConfig();
+const createTransporter = async () => {
+    const emailConfig = await getEmailConfig();
   
-//     const transporter = nodemailer.createTransport({
-//       host: emailConfig.host,        // Host from DB
-//       port: emailConfig.port,        // Port from DB
-//       secure: emailConfig.secure,    // Secure from DB
-//       auth: {
-//         user: emailConfig.authUser,  // Auth user from DB
-//         pass: emailConfig.authPass   // Auth pass from DB
-//       }
-//     });
-//     return transporter;
-// }
+    const transporter = nodemailer.createTransport({
+      host: emailConfig.host,        // Host from DB
+      port: emailConfig.port,        // Port from DB
+      secure: emailConfig.secure,    // Secure from DB
+      auth: {
+        user: emailConfig.authUser,  // Auth user from DB
+        pass: emailConfig.authPass   // Auth pass from DB
+      }
+    });
+    return transporter;
+}
 
-const transporter = nodemailer.createTransport({
-    service: 'gmail',
-    auth: {
-      user: process.env.EMAIL_USER,
-      pass: process.env.EMAIL_PASS,
-    },
-  });
+
 
 export const sendEmail = async ({ to, subject, html }) => {
     try {
-        
+        const transporter = await createTransporter();
+        const emailConfig = await getEmailConfig();
         const mailOptions = {
-            from:  process.env.EMAIL_USER,
+            from: emailConfig.authUser,
             to, 
             subject,
             html
@@ -79,7 +72,7 @@ export const emailTemplates = {
         </div>
 
         <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #eee;">
-            <p style="color: #888; font-size: 14px; margin: 0;">Best regards,<br> VsGenx Solutions Team</p>
+            <p style="color: #888; font-size: 14px; margin: 0;">Best regards,<br> theREHApie Team</p>
             <div style="margin-top: 20px; padding-top: 20px; border-top: 1px solid #eee; text-align: center;">
                 <p style="color: #888; font-size: 12px; margin: 0;">
                     This is an automated message, please do not reply directly to this email.
@@ -120,7 +113,7 @@ export const emailTemplates = {
                 </div>
 
                 <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #eee;">
-                    <p style="color: #888; font-size: 14px; margin: 0;">Best regards,<br>TheRehapie Team</p>
+                    <p style="color: #888; font-size: 14px; margin: 0;">Best regards,<br>theREHApie Team</p>
                     <div style="margin-top: 20px; padding-top: 20px; border-top: 1px solid #eee; text-align: center;">
                         <p style="color: #888; font-size: 12px; margin: 0;">
                             This is an automated message, please do not reply directly to this email.<br>
@@ -164,7 +157,7 @@ export const emailTemplates = {
                 </div>
 
                 <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #eee;">
-                    <p style="color: #888; font-size: 14px; margin: 0;">Best regards,<br>VsGenx Solutions Team</p>
+                    <p style="color: #888; font-size: 14px; margin: 0;">Best regards,<br>theREHApie Team</p>
                     <div style="margin-top: 20px; padding-top: 20px; border-top: 1px solid #eee; text-align: center;">
                         <p style="color: #888; font-size: 12px; margin: 0;">
                             This is an automated message, please do not reply directly to this email.<br>
@@ -203,7 +196,7 @@ export const newsletterTemplate = (content, unsubscribeUrl, subject) => {
             </div>
 
             <div style="margin-top: 40px; padding-top: 20px; border-top: 1px solid #eee;">
-                <p style="color: #888; font-size: 14px; margin: 0;">Best regards,<br>VsGenx Solutions Team</p>
+                <p style="color: #888; font-size: 14px; margin: 0;">Best regards,<br>theREHApie Team</p>
                 
                 <!-- 
                 <div style="margin-top: 20px; padding-top: 20px; border-top: 1px solid #eee; text-align: center;">
