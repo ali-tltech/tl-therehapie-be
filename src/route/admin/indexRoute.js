@@ -6,6 +6,7 @@ import blogRoutes from './blogRoute.js'
 import OrganizationDetailsRoutes from './organizationDetailsRoute.js'
 import socialRoutes from "./socialRoute.js";
 import seoRoutes from "./seoRoute.js"
+import emailConfigRoutes from "./emailConfigRoute.js"
 
 const router = express.Router();
 
@@ -18,6 +19,8 @@ router.use("/organization", OrganizationDetailsRoutes);
 router.use("/blog", blogRoutes);
 router.use('/social', socialRoutes);
 router.use("/seo",seoRoutes)
+router.use("/seo",seoRoutes)
+router.use('/config', emailConfigRoutes);
 
 
 

@@ -1,0 +1,27 @@
+BEGIN TRY
+
+BEGIN TRAN;
+
+-- CreateTable
+CREATE TABLE [dbo].[EmailConfig] (
+    [id] INT NOT NULL IDENTITY(1,1),
+    [host] NVARCHAR(1000) NOT NULL,
+    [port] INT NOT NULL,
+    [secure] BIT NOT NULL,
+    [authUser] NVARCHAR(1000) NOT NULL,
+    [authPass] NVARCHAR(1000) NOT NULL,
+    CONSTRAINT [EmailConfig_pkey] PRIMARY KEY CLUSTERED ([id])
+);
+
+COMMIT TRAN;
+
+END TRY
+BEGIN CATCH
+
+IF @@TRANCOUNT > 0
+BEGIN
+    ROLLBACK TRAN;
+END;
+THROW
+
+END CATCH

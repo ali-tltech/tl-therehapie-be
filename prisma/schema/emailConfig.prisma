@@ -1,0 +1,8 @@
+model EmailConfig {
+  id       Int     @id @default(autoincrement())
+  host     String
+  port     Int
+  secure   Boolean
+  authUser String
+  authPass String
+}
