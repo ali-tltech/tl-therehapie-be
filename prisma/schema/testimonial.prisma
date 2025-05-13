@@ -1,0 +1,9 @@
+model Testimonial {
+  id        String   @id @default(uuid())
+  text      String   @db.Text
+  author    String
+  position  String
+  rating    Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}

@@ -58,7 +58,6 @@ export const getEmailConfiguration = async (req, res) => {
   }
 };
 
-
   export const getEmailConfig = async () => {
     try {
       const emailConfig = await prisma.emailConfig.findFirst();

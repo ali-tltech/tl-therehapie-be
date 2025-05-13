@@ -7,6 +7,8 @@ import OrganizationDetailsRoutes from './organizationDetailsRoute.js'
 import socialRoutes from "./socialRoute.js";
 import seoRoutes from "./seoRoute.js"
 import emailConfigRoutes from "./emailConfigRoute.js"
+import faqRoutes from "./faqRoute.js"
+import testimonialRoutes from "./testimonialRoute.js"
 
 const router = express.Router();
 
@@ -21,7 +23,8 @@ router.use('/social', socialRoutes);
 router.use("/seo",seoRoutes)
 router.use("/seo",seoRoutes)
 router.use('/config', emailConfigRoutes);
-
+router.use("/qna", faqRoutes);
+router.use("/contents", testimonialRoutes);
 
 
 
