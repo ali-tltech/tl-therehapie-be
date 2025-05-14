@@ -54,7 +54,90 @@ export const login = async (req, res) => {
         return res.status(503).json({ message: 'Something went wrong while logging in', success: false });
     }
 }
+export const changePassword = async (req, res) => {
+    const { currentPassword, newPassword, confirmNewPassword } = req.body;
+    
+    const email = req.user.email;
 
+    // Ensure all fields are provided
+    if (!currentPassword || !newPassword || !confirmNewPassword) {
+        return res.status(400).json({
+            message: "Please provide all the required fields",
+            success: false
+        });
+    }
+
+    if (newPassword.length < 6) {
+        return res.status(400).json({
+            message: "Password must be at least 6 characters long",
+            success: false
+        });
+    }
+
+    // Ensure passwords match
+    if (newPassword !== confirmNewPassword) {
+        return res.status(400).json({
+            message: "New passwords do not match",
+            success: false
+        });
+    }
+    try {
+        // Find the user in the database
+        const user = await prisma.user.findUnique({
+            where: {
+                email: email,
+            },
+        });
+
+        if (!user) {
+            return res.status(400).json({ message: "user not found", success: false });
+        }
+
+        // Check if the password matches
+        const isPasswordCorrect = await argon2.verify(user.password, currentPassword);
+        if (!isPasswordCorrect) {
+            return res.status(400).json({ message: "Incorrect current password", success: false });
+        }
+        const isNotCurrentPassword = await argon2.verify(user.password, newPassword);
+
+        if (isNotCurrentPassword) {
+            return res.status(400).json({ message: "New password cannot be same as current password", success: false });
+        }
+
+        // Hash the new password with Argon2
+        const hashedPassword = await argon2.hash(newPassword);
+
+        // Update the password in the database
+        const updatedUser = await prisma.user.update({
+            where: {
+                email: email,
+            },
+            data: {
+                password: hashedPassword,
+            },
+        });
+
+        // Send email to user
+
+
+
+        // Respond with success message
+        res.status(200).json({
+            message: 'Password changed successfully',
+            success: true,
+        });
+        await sendEmail({
+            to: req.user.email,
+            subject: "Password Change Notification",
+            html: emailTemplates.passwordChange(req.user.name || 'Valued User')
+        });
+
+    }
+    catch (error) {
+        console.error('Error during password change:', error);
+        return res.status(500).json({ message: 'Something went wrong while changing password', success: false });
+    }
+}
 export const forgotPassword = async (req, res) => {
     const { email } = req.body;
     if (!email) {
