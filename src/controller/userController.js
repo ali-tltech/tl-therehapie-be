@@ -5,7 +5,6 @@ import { UserRolesType } from "../types/userTypes.js";
 
 
 export const createUser = async (req, res) => {
-    console.log(req.body)
     const { name, email, password, confirmPassword, role } = req.body;
     // Ensure all fields are provided
     if (!name || !email || !password || !confirmPassword || !role) {
