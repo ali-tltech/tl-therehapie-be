@@ -11,6 +11,7 @@ import faqRoutes from "./faqRoute.js"
 import testimonialRoutes from "./testimonialRoute.js"
 import enquiriesRoutes from "./enquiries.routes.js"
 import notificationRoutes from "./notification.routes.js"
+import newsletterRoutes from "./newsletter.routes.js"
 
 const router = express.Router();
 
@@ -29,6 +30,8 @@ router.use("/qna", faqRoutes);
 router.use("/contents", testimonialRoutes);
 router.use("/enquiries", enquiriesRoutes);
 router.use('/notification', notificationRoutes);
+router.use("/newsletter", newsletterRoutes);
+
 
 
 
