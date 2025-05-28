@@ -5,6 +5,7 @@ import organizationDetailsRoutes from "./organizationDetailsRoute.js";
 import enquiriesRoutes from "./enquiries.routes.js";
 import newsletterRoutes from "./newsletter.routes.js";
 import blogRoutes from "./blog.routes.js";
+import documentRoutes from "./document.route.js"
 
 
 
@@ -14,6 +15,8 @@ router.use('/organization', organizationDetailsRoutes)
 router.use("/enquiries", enquiriesRoutes);
 router.use("/newsletter", newsletterRoutes);
 router.use("/blog",blogRoutes);
+router.use('/document', documentRoutes)
+
 
 
 
