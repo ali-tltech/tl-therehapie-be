@@ -1,0 +1,22 @@
+BEGIN TRY
+
+BEGIN TRAN;
+
+-- AlterTable
+ALTER TABLE [dbo].[Testimonial] ALTER COLUMN [author] NVARCHAR(1000) NULL;
+ALTER TABLE [dbo].[Testimonial] ALTER COLUMN [position] NVARCHAR(1000) NULL;
+ALTER TABLE [dbo].[Testimonial] ALTER COLUMN [rating] INT NULL;
+ALTER TABLE [dbo].[Testimonial] ADD [TestimonialUrl] NVARCHAR(1000);
+
+COMMIT TRAN;
+
+END TRY
+BEGIN CATCH
+
+IF @@TRANCOUNT > 0
+BEGIN
+    ROLLBACK TRAN;
+END;
+THROW
+
+END CATCH
