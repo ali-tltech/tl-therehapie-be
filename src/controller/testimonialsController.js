@@ -1,37 +1,39 @@
 import prisma from "../helpers/prisma.js";
 import { v4 as uuidv4 } from 'uuid';
 
-
-
-
 export const createTestimonial = async (req, res) => {
-    const { text, author, position, rating } = req.body;
+    const { text, author, position, TestimonialUrl } = req.body;
 
-    // Validate required fields
-    if (!text || !author || !position || !rating) {
+    // Only text is required now
+    if (!text || text.trim() === '') {
         return res.status(400).json({
             success: false,
-            message: "Please provide all required fields"
-        });
-    }
-
-    // Validate rating is between 1 and 5
-    if (rating < 1 || rating > 5) {
-        return res.status(400).json({
-            success: false,
-            message: "Rating must be between 1 and 5"
+            message: "Testimonial text is required"
         });
     }
 
     try {
+        // Prepare data object with only non-empty values
+        const testimonialData = {
+            id: uuidv4(),
+            text: text.trim(),
+        };
+
+        // Add optional fields only if they have values
+        if (author && author.trim() !== '') {
+            testimonialData.author = author.trim();
+        }
+
+        if (position && position.trim() !== '') {
+            testimonialData.position = position.trim();
+        }
+
+        if (TestimonialUrl && TestimonialUrl.trim() !== '') {
+            testimonialData.TestimonialUrl = TestimonialUrl.trim();
+        }
+
         const testimonial = await prisma.testimonial.create({
-            data: {
-                id: uuidv4(),
-                text,
-                author,
-                position,
-                rating
-            }
+            data: testimonialData
         });
 
         return res.status(201).json({
@@ -74,26 +76,17 @@ export const getAllTestimonials = async (req, res) => {
 
 export const updateTestimonial = async (req, res) => {
     const { id } = req.params;
-    const { text, author, position, rating } = req.body;
+    const { text, author, position, TestimonialUrl } = req.body;
 
-    // Validate required fields
-    if (!text || !author || !position || !rating) {
+    // Only text is required now
+    if (!text || text.trim() === '') {
         return res.status(400).json({
             success: false,
-            message: "Please provide all required fields"
-        });
-    }
-
-    // Validate rating is between 1 and 5
-    if (rating < 1 || rating > 5) {
-        return res.status(400).json({
-            success: false,
-            message: "Rating must be between 1 and 5"
+            message: "Testimonial text is required"
         });
     }
 
     try {
-        // Check if testimonial exists
         const existingTestimonial = await prisma.testimonial.findUnique({
             where: { id }
         });
@@ -105,16 +98,20 @@ export const updateTestimonial = async (req, res) => {
             });
         }
 
-        // Update testimonial
+        // Prepare update data object
+        const updateData = {
+            text: text.trim(),
+            updatedAt: new Date()
+        };
+
+        // Handle optional fields - set to null if empty, otherwise update
+        updateData.author = (author && author.trim() !== '') ? author.trim() : null;
+        updateData.position = (position && position.trim() !== '') ? position.trim() : null;
+        updateData.TestimonialUrl = (TestimonialUrl && TestimonialUrl.trim() !== '') ? TestimonialUrl.trim() : null;
+
         const updatedTestimonial = await prisma.testimonial.update({
             where: { id },
-            data: {
-                text,
-                author,
-                position,
-                rating,
-                updatedAt: new Date()
-            }
+            data: updateData
         });
 
         return res.status(200).json({
@@ -136,7 +133,6 @@ export const deleteTestimonial = async (req, res) => {
     const { id } = req.params;
 
     try {
-        // Check if testimonial exists
         const existingTestimonial = await prisma.testimonial.findUnique({
             where: { id }
         });
@@ -148,7 +144,6 @@ export const deleteTestimonial = async (req, res) => {
             });
         }
 
-        // Delete testimonial
         await prisma.testimonial.delete({
             where: { id }
         });
@@ -165,4 +160,4 @@ export const deleteTestimonial = async (req, res) => {
             message: "Something went wrong while deleting the testimonial"
         });
     }
-}; 
+};
