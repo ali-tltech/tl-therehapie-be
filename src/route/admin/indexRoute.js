@@ -9,9 +9,6 @@ import seoRoutes from "./seoRoute.js"
 import emailConfigRoutes from "./emailConfigRoute.js"
 import faqRoutes from "./faqRoute.js"
 import testimonialRoutes from "./testimonialRoute.js"
-import enquiriesRoutes from "./enquiries.routes.js"
-import notificationRoutes from "./notification.routes.js"
-import newsletterRoutes from "./newsletter.routes.js"
 import documentRoutes from "./documentRoutes.js"
 import enquiriesRoutes from "./enquiriesRoute.js"
 import notificationRoutes from "./notificationRoute.js"
@@ -27,7 +24,6 @@ router.use("/users", UserRoutes);
 router.use("/organization", OrganizationDetailsRoutes);
 router.use("/blog", blogRoutes);
 router.use('/social', socialRoutes);
-router.use("/seo",seoRoutes)
 router.use("/seo",seoRoutes)
 router.use('/config', emailConfigRoutes);
 router.use("/qna", faqRoutes);
