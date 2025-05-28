@@ -13,6 +13,9 @@ import enquiriesRoutes from "./enquiries.routes.js"
 import notificationRoutes from "./notification.routes.js"
 import newsletterRoutes from "./newsletter.routes.js"
 import documentRoutes from "./documentRoutes.js"
+import enquiriesRoutes from "./enquiriesRoute.js"
+import notificationRoutes from "./notificationRoute.js"
+import newsletterRoutes from "./newsletterRoute.js"
 
 const router = express.Router();
 
