@@ -13,7 +13,7 @@ import documentRoutes from "./documentRoutes.js"
 import enquiriesRoutes from "./enquiriesRoute.js"
 import notificationRoutes from "./notificationRoute.js"
 import newsletterRoutes from "./newsletterRoute.js"
-
+import serviceRoute from './serviceRoute.js'
 const router = express.Router();
 
 
@@ -33,6 +33,7 @@ router.use("/enquiries", enquiriesRoutes);
 router.use('/notification', notificationRoutes);
 router.use("/newsletter", newsletterRoutes);
 router.use('/document', documentRoutes)
+router.use('/service', serviceRoute)
 
 
 
