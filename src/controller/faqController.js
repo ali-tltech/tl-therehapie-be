@@ -1,10 +1,8 @@
 import prisma from "../helpers/prisma.js";
 import { v4 as uuidv4 } from 'uuid';
 
-
-
 export const createFAQ = async (req, res) => {
-    const { question, answer, order } = req.body;
+    const { question, answer, order, isHomeFaq = false } = req.body;
 
     // Validate required fields
     if (!question || !answer || !order) {
@@ -15,12 +13,27 @@ export const createFAQ = async (req, res) => {
     }
 
     try {
+        // If trying to set as Home FAQ, check the limit
+        if (isHomeFaq) {
+            const homeFaqCount = await prisma.fAQ.count({
+                where: { isHomeFaq: true }
+            });
+
+            if (homeFaqCount >= 4) {
+                return res.status(400).json({
+                    success: false,
+                    message: "Maximum 4 Home FAQs allowed. Please disable another Home FAQ first."
+                });
+            }
+        }
+
         const faq = await prisma.fAQ.create({
             data: {
                 id: uuidv4(),
                 question,
                 answer,
-                order
+                order,
+                isHomeFaq
             }
         });
 
@@ -62,10 +75,33 @@ export const getAllFAQs = async (req, res) => {
     }
 };
 
+export const getHomeFAQs = async (req, res) => {
+    try {
+        const homeFaqs = await prisma.fAQ.findMany({
+            where: { isHomeFaq: true },
+            orderBy: {
+                order: 'asc'
+            }
+        });
+
+        return res.status(200).json({
+            success: true,
+            message: "Home FAQs fetched successfully",
+            data: homeFaqs
+        });
+
+    } catch (error) {
+        console.error("Error fetching Home FAQs:", error);
+        return res.status(500).json({
+            success: false,
+            message: "Something went wrong while fetching Home FAQs"
+        });
+    }
+};
 
 export const updateFAQ = async (req, res) => {
     const { id } = req.params;
-    const { question, answer, order } = req.body;
+    const { question, answer, order, isHomeFaq = false } = req.body;
 
     // Validate required fields
     if (!question || !answer || !order) {
@@ -88,6 +124,20 @@ export const updateFAQ = async (req, res) => {
             });
         }
 
+        // If trying to set as Home FAQ and it wasn't already a Home FAQ, check the limit
+        if (isHomeFaq && !existingFAQ.isHomeFaq) {
+            const homeFaqCount = await prisma.fAQ.count({
+                where: { isHomeFaq: true }
+            });
+
+            if (homeFaqCount >= 4) {
+                return res.status(400).json({
+                    success: false,
+                    message: "Maximum 4 Home FAQs allowed. Please disable another Home FAQ first."
+                });
+            }
+        }
+
         // Update FAQ
         const updatedFAQ = await prisma.fAQ.update({
             where: { id },
@@ -95,6 +145,7 @@ export const updateFAQ = async (req, res) => {
                 question,
                 answer,
                 order,
+                isHomeFaq,
                 updatedAt: new Date()
             }
         });
@@ -147,4 +198,4 @@ export const deleteFAQ = async (req, res) => {
             message: "Something went wrong while deleting the FAQ"
         });
     }
-}; 
+};
