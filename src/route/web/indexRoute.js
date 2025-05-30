@@ -8,6 +8,7 @@ import newsletterRoutes from "./newsletterRoute.js";
 import blogRoutes from "./blogRoute.js";
 import testimonialRoutes from "./testimonialRoute.js";
 import documentRoutes from "./document.route.js"
+import serviceRoute from './serviceRoute.js'
 
 
 
@@ -20,6 +21,7 @@ router.use("/newsletter", newsletterRoutes);
 router.use("/blog",blogRoutes);
 router.use("/testimonial", testimonialRoutes);
 router.use('/document', documentRoutes)
+router.use('/service', serviceRoute)
 
 
 
