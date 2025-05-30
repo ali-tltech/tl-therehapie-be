@@ -146,3 +146,33 @@ export const getAllServices = async (req, res) => {
   }
 };
 
+export const getServiceByTitle = async (req, res) => {
+  const { title } = req.params;
+
+  try {
+    const service = await prisma.service.findFirst({
+      where: {
+        title: title,
+      },
+    });
+
+    if (!service) {
+      return res.status(404).json({
+        success: false,
+        message: "Service not found",
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      message: "Service fetched successfully",
+      data: service,
+    });
+  } catch (error) {
+    console.error("Error fetching service by title:", error);
+    return res.status(500).json({
+      success: false,
+      message: "Something went wrong while fetching the service",
+    });
+  }
+};
