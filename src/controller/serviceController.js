@@ -149,14 +149,17 @@ export const getAllServices = async (req, res) => {
 export const getServiceByTitle = async (req, res) => {
   const { title } = req.params;
 
-  try {
-    const service = await prisma.service.findFirst({
-      where: {
-        title: title,
-      },
-    });
+  // normalize function: lowercase + remove all whitespace
+  const normalize = (str) => str.toLowerCase().replace(/\s+/g, "");
 
-    if (!service) {
+  try {
+    const allServices = await prisma.service.findMany();
+
+    const matchedService = allServices.find(
+      (service) => normalize(service.title) === normalize(title)
+    );
+
+    if (!matchedService) {
       return res.status(404).json({
         success: false,
         message: "Service not found",
@@ -166,7 +169,7 @@ export const getServiceByTitle = async (req, res) => {
     return res.status(200).json({
       success: true,
       message: "Service fetched successfully",
-      data: service,
+      data: matchedService,
     });
   } catch (error) {
     console.error("Error fetching service by title:", error);
@@ -176,3 +179,4 @@ export const getServiceByTitle = async (req, res) => {
     });
   }
 };
+
