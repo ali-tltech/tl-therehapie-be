@@ -1,10 +1,10 @@
 import express from "express";
-import { getAllFAQs } from "../../controller/faqController.js";
+import { getAllFAQs, getHomeFAQs, getPageFAQs } from "../../controller/faqController.js";
 
 const router = express.Router();
 
 // Add these routes with your existing routes
 
-router.get("/get-faqs", getAllFAQs);
-
+router.get("/get-page-faqs", getPageFAQs);
+router.get("/get-home-faqs", getHomeFAQs);
 export default router;

@@ -25,7 +25,6 @@ router.use("/organization", OrganizationDetailsRoutes);
 router.use("/blog", blogRoutes);
 router.use('/social', socialRoutes);
 router.use("/seo",seoRoutes)
-router.use("/seo",seoRoutes)
 router.use('/config', emailConfigRoutes);
 router.use("/qna", faqRoutes);
 router.use("/contents", testimonialRoutes);

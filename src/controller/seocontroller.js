@@ -5,6 +5,7 @@ import prisma from '../helpers/prisma.js'
 export const getSEO = async (req, res) => {
 
   const { pageTitle } = req.params;
+console.log(pageTitle);
 
   if (!pageTitle) {
     return res.status(400).json({ message: "pageTitle query parameter is required" });
@@ -195,7 +196,6 @@ export const deleteSEO = async (req, res) => {
 
 export const getSEOWithParams = async (req, res) => {
   const { pageTitle } = req.params;
-
   if (!pageTitle) {
     return res.status(400).json({ message: "pageTitle query parameter is required" });
   }

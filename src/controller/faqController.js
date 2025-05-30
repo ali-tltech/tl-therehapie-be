@@ -55,6 +55,7 @@ export const createFAQ = async (req, res) => {
 export const getAllFAQs = async (req, res) => {
     try {
         const faqs = await prisma.fAQ.findMany({
+            
             orderBy: {
                 order: 'asc'
             }
@@ -71,6 +72,33 @@ export const getAllFAQs = async (req, res) => {
         return res.status(500).json({
             success: false,
             message: "Something went wrong while fetching FAQs"
+        });
+    }
+};
+
+
+export const getPageFAQs = async (req, res) => {
+    try {
+        const faqs = await prisma.fAQ.findMany({
+               where: {
+                isHomeFaq: false
+            },
+            orderBy: {
+                order: 'asc'
+            }
+        });
+
+        return res.status(200).json({
+            success: true,
+            message: "FAQs fetched successfully",
+            data: faqs
+        });
+
+    } catch (error) {
+        console.error("Error fetching FAQs:", error);
+        return res.status(500).json({
+            success: false,
+            message: "Something went wrong while fetching page FAQs"
         });
     }
 };
