@@ -216,7 +216,7 @@ export const exportEnquiries = async (req, res) => {
       worksheet.columns = [
         { header: 'Name', key: 'name', width: 20 },
         { header: 'Email', key: 'email', width: 25 },
-        { header: 'Phone Number', key: 'phoneNumber', width: 15 },
+        // { header: 'Phone Number', key: 'phoneNumber', width: 15 },
         { header: 'Message', key: 'message', width: 40 },
         { header: 'Status', key: 'status', width: 10 },
         { header: 'Date', key: 'createdAt', width: 20 },
@@ -226,7 +226,7 @@ export const exportEnquiries = async (req, res) => {
         worksheet.addRow({
           name: enquiry.name,
           email: enquiry.email,
-          phoneNumber: enquiry.phoneNumber,
+          // phoneNumber: enquiry.phoneNumber,
           message: enquiry.message,
           status: enquiry.status,
           createdAt: format(new Date(enquiry.createdAt), 'dd MMM yyyy'),
@@ -291,10 +291,10 @@ async function generatePdfReport(enquiries, startDate, endDate) {
     // Table configuration
     const tableTop = doc.y;
     const headers = [
-      'S.No.', 'Name', 'Email', 'Phone', 'Message', 
+      'S.No.', 'Name', 'Email', 'Message', 
       'Status', 'Date'
     ];
-    const columnWidths = [40, 80, 100, 80, 120, 50, 70];
+    const columnWidths = [40, 80, 100, 120, 50, 70];
     
     // Function to draw table cell
     function drawCell(text, x, y, width, rowHeight, isHeader = false) {
@@ -334,7 +334,7 @@ async function generatePdfReport(enquiries, startDate, endDate) {
         (index + 1).toString(), // Serial number
         enquiry.name,
         enquiry.email,
-        enquiry.phoneNumber,
+        // enquiry.phoneNumber,
         enquiry.message,
         enquiry.status,
         format(new Date(enquiry.createdAt), 'dd MMM yyyy'),
