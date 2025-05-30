@@ -13,7 +13,7 @@ import documentRoutes from "./documentRoutes.js"
 import enquiriesRoutes from "./enquiriesRoute.js"
 import notificationRoutes from "./notificationRoute.js"
 import newsletterRoutes from "./newsletterRoute.js"
-
+import serviceRoute from './serviceRoute.js'
 const router = express.Router();
 
 
@@ -25,7 +25,6 @@ router.use("/organization", OrganizationDetailsRoutes);
 router.use("/blog", blogRoutes);
 router.use('/social', socialRoutes);
 router.use("/seo",seoRoutes)
-router.use("/seo",seoRoutes)
 router.use('/config', emailConfigRoutes);
 router.use("/qna", faqRoutes);
 router.use("/contents", testimonialRoutes);
@@ -33,6 +32,7 @@ router.use("/enquiries", enquiriesRoutes);
 router.use('/notification', notificationRoutes);
 router.use("/newsletter", newsletterRoutes);
 router.use('/document', documentRoutes)
+router.use('/service', serviceRoute)
 
 
 
