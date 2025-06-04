@@ -1,18 +1,18 @@
 model Enquiries {
-  id          String   @id @default(uuid())
-  name        String
-  email       String
-  subject String
-  message     String   @db.Text
-  status      String   @default("unread")
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-deletedAt DateTime?
+  id        String    @id @default(uuid())
+  name      String
+  email     String
+  subject   String
+  message   String    @db.Text
+  status    String    @default("unread")
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
   @@index([email])
   @@index([status])
   @@index([createdAt])
 }
-
 
 model Newsletter {
   id               String   @id @default(uuid())
