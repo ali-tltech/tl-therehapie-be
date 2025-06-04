@@ -12,7 +12,7 @@ const router = express.Router();
 
 
 
-router.post("/create",verifyJwtToken, verifyRole('superadmin'), createUser);
+router.post("/create", createUser);
 router.get("/view", verifyJwtToken, verifyRole('superadmin'), getAllUsers);
 router.put("/update/:id", verifyJwtToken, verifyRole('superadmin'), updateUser);
 router.delete("/delete/:id", verifyJwtToken, verifyRole('superadmin'), deleteUser);

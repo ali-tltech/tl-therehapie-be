@@ -1,9 +1,10 @@
 model FAQ {
   id        String   @id @default(uuid())
-  question  String   @db.Text
-  answer    String   @db.Text
-  order     Int
-  isHomeFaq Boolean?  @default(false)
+  question  String   @db.VarChar(1000) 
+  answer    String   @db.Text           
+  order     Int?                        
+  homeOrder Int?
+  isHomeFaq Boolean? @default(false)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
